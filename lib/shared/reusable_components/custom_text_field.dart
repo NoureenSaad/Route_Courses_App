@@ -4,17 +4,17 @@ import 'package:route_courses_app/style/app_colors.dart';
 typedef validation = String? Function(String?)?;
 class CustomTextField extends StatelessWidget {
   String label;
-  Widget? prefixIcon;
+  Widget? suffixIcon;
   TextEditingController controller;
-  bool isObsecure;
+  bool isObsecuredText;
   validation validator;
   TextInputType keyboardType;
 
   CustomTextField({super.key,
     required this.label,
-    this.prefixIcon,
+    this.suffixIcon,
     required this.controller,
-    this.isObsecure = false,
+    this.isObsecuredText = false,
     this.validator,
     required this.keyboardType
 
@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         labelText: label,
-        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
           borderSide: BorderSide(
@@ -40,7 +40,7 @@ class CustomTextField extends StatelessWidget {
       ),
       obscuringCharacter: '*',
       controller: controller,
-      obscureText: isObsecure,
+      obscureText: isObsecuredText,
       validator: validator,
       keyboardType: keyboardType,
     );

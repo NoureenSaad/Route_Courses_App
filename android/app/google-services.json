@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "64924680870",
+    "project_id": "route-courses-app",
+    "storage_bucket": "route-courses-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:64924680870:android:62ca93f792eb92c375ea67",
+        "android_client_info": {
+          "package_name": "com.example.route_courses_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhUB9khxjq7efuCAq-tH7378Osh4esysI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
