@@ -159,10 +159,6 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passwordController.text
         );
-        provider.setUsers(credential.user, FirestoreUser(
-            email: emailController.text,
-            password: passwordController.text)
-        );
         DialogUtils.hideMessage(context);
         // Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (route) => false);
       }on FirebaseException catch(error){
