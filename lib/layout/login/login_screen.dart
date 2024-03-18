@@ -22,7 +22,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  bool isObscured = false;
+  bool isObscured = true;
 
   TextEditingController emailController = TextEditingController();
 

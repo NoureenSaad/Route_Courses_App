@@ -1,11 +1,194 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:route_courses_app/layout/login/login_screen.dart';
+import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
+import 'package:route_courses_app/shared/reusable_components/dialog_utils.dart';
 
-class RegistrationScreen extends StatelessWidget {
+import '../../shared/constants.dart';
+import '../../shared/reusable_components/custom_text_field.dart';
+import '../../style/app_colors.dart';
+
+class RegistrationScreen extends StatefulWidget {
   static const String route = "RegistrationScreen";
+
   RegistrationScreen({super.key});
 
   @override
+  State<RegistrationScreen> createState() => _RegistrationScreenState();
+}
+
+class _RegistrationScreenState extends State<RegistrationScreen> {
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmationController = TextEditingController();
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  bool isObscured = true;
+  bool isConfirmationObscured = true;
+
+  @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    AuthDataProvider provider = Provider.of<AuthDataProvider>(context);
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image(image: AssetImage("assets/images/route_logo.png")),
+                IconButton(
+                  onPressed: (){
+
+                  },
+                  icon: Icon(Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 20,right: 20),
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Hi, Welcome Back!",style: Theme.of(context).textTheme.titleMedium,),
+                      Text("Hello Again, You've Been Missed!",style: Theme.of(context).textTheme.labelSmall,),
+                    ],
+                  ),
+                  SizedBox(height: 20,),
+                  Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
+                  SizedBox(height: 10,),
+                  CustomTextField(
+                    label: "Enter Your Email",
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "This Field Is Required";
+                      }
+                      else if(!RegExp(Constants.emailRegex).hasMatch(value)){
+                        return "Enter A Valid Email";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 15,),
+                  Text("Password",style: Theme.of(context).textTheme.labelMedium,),
+                  SizedBox(height: 10,),
+                  CustomTextField(
+                    label: "Enter Your Password",
+                    controller: passwordController,
+                    keyboardType: TextInputType.text,
+                    isObsecuredText: isObscured,
+                    suffixIcon: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            isObscured = !isObscured;
+                          });
+                        },
+                        icon: Icon(
+                          isObscured?
+                          Icons.visibility_off:
+                          Icons.visibility,
+                          size: 25,
+                          color: AppColors.lightPrimaryColor,
+                        )
+                    ),
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "This Field Is Required";
+                      }
+                      else if(value.length < 8){
+                        return "Password Can't Be Less Than 8 Characters";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 15,),
+                  Text("Password",style: Theme.of(context).textTheme.labelMedium,),
+                  SizedBox(height: 10,),
+                  CustomTextField(
+                    label: "Confirm Your Password",
+                    controller: passwordConfirmationController,
+                    keyboardType: TextInputType.text,
+                    isObsecuredText: isConfirmationObscured,
+                    suffixIcon: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            isObscured = !isObscured;
+                          });
+                        },
+                        icon: Icon(
+                          isObscured?
+                          Icons.visibility_off:
+                          Icons.visibility,
+                          size: 25,
+                          color: AppColors.lightPrimaryColor,
+                        )
+                    ),
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "This Field Is Required";
+                      }
+                      else if(value != passwordController.text){
+                        return "Password Doesn't Match";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 25,),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                          backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
+                      ),
+                      onPressed: (){
+
+                      },
+                      child: Text("Registration",style: Theme.of(context).textTheme.titleSmall,)
+                  ),
+                  SizedBox(height: 25,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already Have An Account?",style: Theme.of(context).textTheme.labelSmall,),
+                      SizedBox(width: 5,),
+                      InkWell(
+                        onTap: (){
+                          Navigator.pushNamed(context, LoginScreen.route);
+                        },
+                        child: Text("Sign In",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppColors.lightPrimaryColor
+                        )),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  void registration() async{
+    DialogUtils.showLoading(context);
+    UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text
+    );
+    DialogUtils.hideMessage(context);
+
   }
 }
