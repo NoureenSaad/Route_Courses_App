@@ -6,6 +6,7 @@ import 'package:route_courses_app/layout/home/home_screen.dart';
 import 'package:route_courses_app/layout/registration/registration_screen.dart';
 import 'package:route_courses_app/model/firestore_user.dart';
 import 'package:route_courses_app/shared/constants.dart';
+import 'package:route_courses_app/shared/firebase/firestore_helper.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 import 'package:route_courses_app/shared/reusable_components/custom_text_field.dart';
 import 'package:route_courses_app/shared/reusable_components/dialog_utils.dart';
@@ -159,6 +160,8 @@ class _LoginScreenState extends State<LoginScreen> {
             email: emailController.text,
             password: passwordController.text
         );
+        FirestoreUser? dataUser = await FirestoreHelper.getUser(credential.user!.uid);
+        provider.setUsers(credential.user, dataUser);
         DialogUtils.hideMessage(context);
         // Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (route) => false);
       }on FirebaseException catch(error){

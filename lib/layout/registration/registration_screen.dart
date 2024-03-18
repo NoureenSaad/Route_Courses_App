@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:route_courses_app/layout/home/home_screen.dart';
 import 'package:route_courses_app/layout/login/login_screen.dart';
+import 'package:route_courses_app/model/firestore_user.dart';
+import 'package:route_courses_app/shared/firebase/firestore_helper.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 import 'package:route_courses_app/shared/reusable_components/dialog_utils.dart';
 
@@ -20,6 +23,7 @@ class RegistrationScreen extends StatefulWidget {
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordConfirmationController = TextEditingController();
@@ -66,6 +70,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     ],
                   ),
                   SizedBox(height: 20,),
+                  Text("Name",style: Theme.of(context).textTheme.labelMedium,),
+                  SizedBox(height: 10,),
+                  CustomTextField(
+                    label: "Enter Your Name",
+                    controller: nameController,
+                    keyboardType: TextInputType.text,
+                    validator: (value){
+                      if(value == null || value.isEmpty){
+                        return "This Field Is Required";
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 15,),
                   Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
                   SizedBox(height: 10,),
                   CustomTextField(
@@ -153,7 +171,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
                       ),
                       onPressed: (){
-
+                        registration();
                       },
                       child: Text("Registration",style: Theme.of(context).textTheme.titleSmall,)
                   ),
@@ -183,12 +201,32 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   void registration() async{
-    DialogUtils.showLoading(context);
-    UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text
-    );
-    DialogUtils.hideMessage(context);
+    AuthDataProvider provider = Provider.of<AuthDataProvider>(context);
+    if(formKey.currentState?.validate()??false){
+      DialogUtils.showLoading(context);
+      try{
+        UserCredential credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text
+        );
+        await FirestoreHelper.addUser(
+            credential.user!.uid,
+            nameController.text,
+            emailController.text
+        );
+        DialogUtils.hideMessage(context);
+        // Navigator.pushNamedAndRemoveUntil(context, HomeScreen.route, (route) => false);
+      }on FirebaseException catch(error){
+        if(error.code == Constants.usedEmail){
+          print("Email already used before");
+        }
+        if(error.code == Constants.weakPassword){
+          print("Weak password");
+        }
+      }catch(error){
+        print(error);
+      }
+    }
 
   }
 }

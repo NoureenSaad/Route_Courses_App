@@ -23,8 +23,8 @@ class FirestoreHelper{
     return user;
   }
 
-  static Future<void> addUser(FirestoreUser user)async{
-    var userDoc = getUserCollection().doc(user.id);
-    await userDoc.set(user);
+  static Future<void> addUser(String userID,String name,String email)async{
+    var userDoc = getUserCollection().doc(userID);
+    await userDoc.set(FirestoreUser(id: userID, name: name, email: email));
   }
 }
