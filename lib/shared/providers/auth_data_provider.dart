@@ -18,4 +18,10 @@ class AuthDataProvider extends ChangeNotifier{
     firebaseUser = FirebaseAuth.instance.currentUser;
     return true;
   }
+
+  Future<void> signOut()async{
+    firebaseUser = null;
+    firestoreUser = null;
+    await FirebaseAuth.instance.signOut();
+  }
 }

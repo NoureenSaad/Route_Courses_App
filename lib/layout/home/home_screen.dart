@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:route_courses_app/layout/home/widgets/best_selling_courses_widget.dart';
 import 'package:route_courses_app/layout/home/widgets/featured_courses_widget.dart';
+import 'package:route_courses_app/layout/login/login_screen.dart';
+import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 
 import '../../shared/providers/theme_provider.dart';
 
@@ -17,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    AuthDataProvider authDataProvider = Provider.of<AuthDataProvider>(context);
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Padding(
@@ -56,8 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icon(provider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,color: Theme.of(context).colorScheme.primary,)
                       ),
                       IconButton(
-                          onPressed: (){
-
+                          onPressed: ()async{
+                            await authDataProvider.signOut();
+                            Navigator.pushNamedAndRemoveUntil(context, LoginScreen.route, (route) => false);
                           },
                           icon: Icon(Icons.logout,color: Theme.of(context).colorScheme.primary)
                       ),
