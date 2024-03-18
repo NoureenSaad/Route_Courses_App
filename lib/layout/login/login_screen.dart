@@ -176,6 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
             positiveText: "Try Again",
             positiveButton: (){
               DialogUtils.hideMessage(context);
+              DialogUtils.hideMessage(context);
             },
           );
         }
@@ -186,6 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
             message: "Wrong Password",
             positiveText: "Try Again",
             positiveButton: (){
+              DialogUtils.hideMessage(context);
               DialogUtils.hideMessage(context);
             },
           );

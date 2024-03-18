@@ -235,6 +235,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             positiveText: "Try Again",
             positiveButton: (){
               DialogUtils.hideMessage(context);
+              DialogUtils.hideMessage(context);
             },
           );
         }
@@ -245,6 +246,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             message: "Password Is Weak",
             positiveText: "Try Again",
             positiveButton: (){
+              DialogUtils.hideMessage(context);
               DialogUtils.hideMessage(context);
             },
           );
