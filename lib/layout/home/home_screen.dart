@@ -1,14 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:route_courses_app/layout/home/widgets/best_selling_courses.dart';
+import 'package:provider/provider.dart';
+import 'package:route_courses_app/layout/home/widgets/best_selling_courses_widget.dart';
 import 'package:route_courses_app/layout/home/widgets/featured_courses_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+import '../../shared/providers/theme_provider.dart';
+
+class HomeScreen extends StatefulWidget {
   static const String route = "HomeScreen";
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
   Widget build(BuildContext context) {
+    ThemeProvider provider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -21,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image(image: AssetImage("assets/images/light_route_logo.png"),width: 80,),
+                      Image(image: AssetImage(provider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png"),width: 80,),
                       SizedBox(width: 10,),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,11 +50,15 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       IconButton(
-                        onPressed: (){},
-                        icon: Icon(Icons.dark_mode,color: Theme.of(context).colorScheme.primary,)
+                        onPressed: (){
+                          provider.changeTheme(provider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
+                        },
+                        icon: Icon(provider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,color: Theme.of(context).colorScheme.primary,)
                       ),
                       IconButton(
-                          onPressed: (){},
+                          onPressed: (){
+
+                          },
                           icon: Icon(Icons.logout,color: Theme.of(context).colorScheme.primary)
                       ),
                     ],

@@ -4,6 +4,7 @@ import 'package:route_courses_app/layout/home/home_screen.dart';
 import 'package:route_courses_app/layout/login/login_screen.dart';
 import 'package:route_courses_app/layout/registration/registration_screen.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
+import 'package:route_courses_app/shared/providers/theme_provider.dart';
 import 'package:route_courses_app/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -13,8 +14,11 @@ void main() async{
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-      create: (context)=>AuthDataProvider(),
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AuthDataProvider>(create: (_)=>AuthDataProvider(),),
+        ChangeNotifierProvider<ThemeProvider>(create: (_)=>ThemeProvider(),),
+      ],
       child: const MyApp()
     )
   );
@@ -25,10 +29,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ThemeProvider provider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       title: 'Route Courses App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: provider.theme,
       initialRoute: LoginScreen.route,
       routes: {
         LoginScreen.route:(_)=>LoginScreen(),

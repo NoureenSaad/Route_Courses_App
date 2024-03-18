@@ -8,6 +8,7 @@ import 'package:route_courses_app/shared/firebase/firestore_helper.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 import 'package:route_courses_app/shared/reusable_components/dialog_utils.dart';
 import '../../shared/constants.dart';
+import '../../shared/providers/theme_provider.dart';
 import '../../shared/reusable_components/custom_text_field.dart';
 import '../../style/app_colors.dart';
 
@@ -35,6 +36,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     AuthDataProvider provider = Provider.of<AuthDataProvider>(context);
+    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -43,12 +45,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Image(image: AssetImage("assets/images/light_route_logo.png")),
+                Image(image: AssetImage(themeProvider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png")),
                 IconButton(
                   onPressed: (){
-
+                    themeProvider.changeTheme(themeProvider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
                   },
-                  icon: Icon(Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
+                  icon: Icon(themeProvider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
                 ),
               ],
             ),
@@ -64,8 +66,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Hi, Welcome Back!",style: Theme.of(context).textTheme.titleMedium,),
-                      Text("Hello Again, You've Been Missed!",style: Theme.of(context).textTheme.labelSmall,),
+                      Text("Create An Account",style: Theme.of(context).textTheme.titleMedium,),
+                      Text("Connect With Your Friends Today!",style: Theme.of(context).textTheme.labelSmall,),
                     ],
                   ),
                   SizedBox(height: 20,),
@@ -184,7 +186,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         onTap: (){
                           Navigator.pushNamed(context, LoginScreen.route);
                         },
-                        child: Text("Sign In",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                        child: Text("Login",style: Theme.of(context).textTheme.labelSmall?.copyWith(
                             color: AppColors.lightPrimaryColor
                         )),
                       )
