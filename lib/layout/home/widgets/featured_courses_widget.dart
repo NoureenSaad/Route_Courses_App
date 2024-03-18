@@ -16,28 +16,22 @@ class FeaturedCoursesWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Image(image: AssetImage("assets/images/route.png"),fit: BoxFit.cover,)
+              child: Image(image: AssetImage("assets/images/featured.png"),fit: BoxFit.cover,)
             ),
             SizedBox(height: 10,),
             Text(courseName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 20
             ),),
-            Row(
-              children: [
-                Text(studentsNumber,style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  fontSize: 14
-                ),),
-                Text(" Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontSize: 14
-                ),),
-              ],
-            ),
+            Text("${studentsNumber} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                fontSize: 14
+            ),),
             SizedBox(height: 10,),
             ElevatedButton(
               style: ButtonStyle(

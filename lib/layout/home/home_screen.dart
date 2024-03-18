@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:route_courses_app/layout/home/widgets/best_selling_courses.dart';
 import 'package:route_courses_app/layout/home/widgets/featured_courses_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -20,12 +21,19 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Image(image: AssetImage("assets/images/light_route_logo.png"),width: 100,),
+                      Image(image: AssetImage("assets/images/light_route_logo.png"),width: 80,),
                       SizedBox(width: 10,),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Welcome To Route"),
-                          Text("Enjoy Our Courses"),
+                          Text("Welcome To Route",style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 16
+                          )),
+                          Text("Enjoy Our Courses!",style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 14
+                          )),
                         ],
                       )
                     ],
@@ -38,14 +46,13 @@ class HomeScreen extends StatelessWidget {
                       ),
                       IconButton(
                           onPressed: (){},
-                          icon: Icon(Icons.logout)
+                          icon: Icon(Icons.logout,color: Theme.of(context).colorScheme.primary)
                       ),
                     ],
                   )
                 ],
               ),
             ),
-
             Row(
               // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -71,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 25,),
+            SizedBox(height: 20,),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -83,11 +90,14 @@ class HomeScreen extends StatelessWidget {
                 ),)
               ],
             ),
-            SizedBox(height: 20,),
             Expanded(
               child: ListView(
                 children: [
-
+                  BestSellingCourses(courseName: "Flutter Basics Diploma", studentsNumber: "20"),
+                  SizedBox(height: 15,),
+                  BestSellingCourses(courseName: "Android Kotlin Diploma", studentsNumber: "15"),
+                  SizedBox(height: 15,),
+                  BestSellingCourses(courseName: "Full-Stack Development\nDiploma", studentsNumber: "30"),
                 ],
               ))
           ],

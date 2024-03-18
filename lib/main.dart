@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Route Courses App',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
       initialRoute: LoginScreen.route,
       routes: {
         LoginScreen.route:(_)=>LoginScreen(),
