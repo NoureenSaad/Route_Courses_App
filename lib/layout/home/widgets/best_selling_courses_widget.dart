@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../style/app_colors.dart';
 
-class BestSellingCourses extends StatelessWidget {
+class BestSellingCoursesWidget extends StatelessWidget {
   String courseName;
   String studentsNumber;
-  BestSellingCourses({super.key,required this.courseName,required this.studentsNumber});
+  BestSellingCoursesWidget({super.key,required this.courseName,required this.studentsNumber});
 
   @override
   Widget build(BuildContext context) {

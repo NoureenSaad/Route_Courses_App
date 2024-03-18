@@ -106,11 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Expanded(
               child: ListView(
                 children: [
-                  BestSellingCourses(courseName: "Flutter Basics Diploma", studentsNumber: "20"),
+                  BestSellingCoursesWidget(courseName: "Flutter Basics Diploma", studentsNumber: "20"),
                   SizedBox(height: 15,),
-                  BestSellingCourses(courseName: "Android Kotlin Diploma", studentsNumber: "15"),
+                  BestSellingCoursesWidget(courseName: "Android Kotlin Diploma", studentsNumber: "15"),
                   SizedBox(height: 15,),
-                  BestSellingCourses(courseName: "Full-Stack Development\nDiploma", studentsNumber: "30"),
+                  BestSellingCoursesWidget(courseName: "Full-Stack Development\nDiploma", studentsNumber: "30"),
                 ],
               ))
           ],
