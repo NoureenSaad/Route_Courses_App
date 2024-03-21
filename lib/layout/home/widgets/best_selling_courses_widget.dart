@@ -26,14 +26,15 @@ class BestSellingCoursesWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(bestSellingCourses.courseName??"",style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontSize: 15
-                ),),
+                  fontSize: 15,
+                ),maxLines: 2,
+                overflow: TextOverflow.ellipsis,),
                 Text("${bestSellingCourses.studentsNumber??0} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                    fontSize: 12
+                  fontSize: 12
                 ),),
               ],
             ),
-            SizedBox(width: 20,),
+            SizedBox(width: 10,),
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Theme.of(context).colorScheme.primary),

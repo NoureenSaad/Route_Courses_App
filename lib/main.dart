@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:route_courses_app/layout/home/home_screen.dart';
 import 'package:route_courses_app/layout/login/login_screen.dart';
 import 'package:route_courses_app/layout/registration/registration_screen.dart';
+import 'package:route_courses_app/layout/splash/splash_screen.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 import 'package:route_courses_app/shared/providers/theme_provider.dart';
 import 'package:route_courses_app/shared/shared_prefs.dart';
@@ -42,11 +43,12 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: provider.theme,
-      initialRoute: LoginScreen.route,
+      initialRoute: SplashScreen.route,
       routes: {
         LoginScreen.route:(_)=>LoginScreen(),
         RegistrationScreen.route:(_)=>RegistrationScreen(),
         HomeScreen.route:(_)=>HomeScreen(),
+        SplashScreen.route:(_)=>SplashScreen(),
       },
     );
   }
