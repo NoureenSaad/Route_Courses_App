@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../../../model/best_selling_courses.dart';
 import '../../../style/app_colors.dart';
 
 class BestSellingCoursesWidget extends StatelessWidget {
-  String courseName;
-  String studentsNumber;
-  BestSellingCoursesWidget({super.key,required this.courseName,required this.studentsNumber});
+  BestSellingCourses bestSellingCourses;
+  BestSellingCoursesWidget({super.key,required this.bestSellingCourses});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,10 @@ class BestSellingCoursesWidget extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(courseName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                Text(bestSellingCourses.courseName??"",style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontSize: 15
                 ),),
-                Text("${studentsNumber} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                Text("${bestSellingCourses.studentsNumber??0} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
                     fontSize: 12
                 ),),
               ],

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:route_courses_app/model/featured_courses.dart';
 import 'package:route_courses_app/model/firestore_user.dart';
 
@@ -57,17 +56,15 @@ class FirestoreHelper{
     return collection;
   }
 
-  static Future<BestSellingCourses?> getBestSellingCourses(String courseID)async{
-    var courseDoc = getBestSellingCoursesCollection().doc(courseID);
-    var snapshot = await courseDoc.get();
-    BestSellingCourses? course = snapshot.data();
-    return course;
+  static Stream<List<FeaturedCourses>> getAllFeaturedCourses() async*{
+    Stream<QuerySnapshot<FeaturedCourses>> queryStream = getFeaturedCoursesCollection().snapshots();
+    Stream<List<FeaturedCourses>> query = queryStream.map((querySnapshot) => querySnapshot.docs.map((documents) => documents.data()).toList());
+    yield* query;
   }
 
-  static Future<FeaturedCourses?> getFeaturedCourses(String courseID)async{
-    var courseDoc = getFeaturedCoursesCollection().doc(courseID);
-    var snapshot = await courseDoc.get();
-    FeaturedCourses? course = snapshot.data();
-    return course;
+  static Stream<List<BestSellingCourses>> getAllBestSellingCourses() async*{
+    Stream<QuerySnapshot<BestSellingCourses>> queryStream = getBestSellingCoursesCollection().snapshots();
+    Stream<List<BestSellingCourses>> query = queryStream.map((querySnapshot) => querySnapshot.docs.map((documents) => documents.data()).toList());
+    yield* query;
   }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:route_courses_app/style/app_colors.dart';
 
+import '../../../model/featured_courses.dart';
+
 class FeaturedCoursesWidget extends StatelessWidget {
-  String courseName;
-  String studentsNumber;
-  FeaturedCoursesWidget({super.key,required this.courseName,required this.studentsNumber});
+  FeaturedCourses featuredCourses;
+  FeaturedCoursesWidget({super.key,required this.featuredCourses});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +27,10 @@ class FeaturedCoursesWidget extends StatelessWidget {
               child: Image(image: AssetImage("assets/images/featured.png"),fit: BoxFit.cover,)
             ),
             SizedBox(height: 10,),
-            Text(courseName,style: Theme.of(context).textTheme.titleMedium?.copyWith(
+            Text(featuredCourses.courseName??"",style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 fontSize: 20
             ),),
-            Text("${studentsNumber} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            Text("${featuredCourses.studentsNumber??0} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 fontSize: 14
             ),),
             SizedBox(height: 10,),

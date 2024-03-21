@@ -36,116 +36,118 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image(image: AssetImage(provider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png")),
-                IconButton(
-                  onPressed: (){
-                    provider.changeTheme(provider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
-                  },
-                  icon: Icon(provider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20,right: 20),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Hi, Welcome Back!",style: Theme.of(context).textTheme.titleMedium,),
-                      Text("Hello Again, You've Been Missed!",style: Theme.of(context).textTheme.labelSmall,),
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Enter Your Email",
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      else if(!RegExp(Constants.emailRegex).hasMatch(value)){
-                        return "Enter A Valid Email";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 15,),
-                  Text("Password",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Enter Your Password",
-                    controller: passwordController,
-                    keyboardType: TextInputType.text,
-                    isObsecuredText: isObscured,
-                    suffixIcon: IconButton(
-                        onPressed: (){
-                          setState(() {
-                            isObscured = !isObscured;
-                          });
-                        },
-                        icon: Icon(
-                          isObscured?
-                          Icons.visibility_off:
-                          Icons.visibility,
-                          size: 25,
-                          color: AppColors.lightPrimaryColor,
-                        )
-                    ),
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 25,),
-                  ElevatedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                      backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
-                    ),
+                  Image(image: AssetImage(provider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png")),
+                  IconButton(
                     onPressed: (){
-                      login();
+                      provider.changeTheme(provider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
                     },
-                    child: Text("Login",style: Theme.of(context).textTheme.titleSmall,)
+                    icon: Icon(provider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
                   ),
-                  SizedBox(height: 25,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Don't Have An Account?",style: Theme.of(context).textTheme.labelSmall,),
-                      SizedBox(width: 5,),
-                      InkWell(
-                        onTap: (){
-                          Navigator.pushNamed(context, RegistrationScreen.route);
-                        },
-                        child: Text("Sign Up",style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: AppColors.lightPrimaryColor
-                        )),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 20),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Hi, Welcome Back!",style: Theme.of(context).textTheme.titleMedium,),
+                        Text("Hello Again, You've Been Missed!",style: Theme.of(context).textTheme.labelSmall,),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Enter Your Email",
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        else if(!RegExp(Constants.emailRegex).hasMatch(value)){
+                          return "Enter A Valid Email";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15,),
+                    Text("Password",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Enter Your Password",
+                      controller: passwordController,
+                      keyboardType: TextInputType.text,
+                      isObsecuredText: isObscured,
+                      suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              isObscured = !isObscured;
+                            });
+                          },
+                          icon: Icon(
+                            isObscured?
+                            Icons.visibility_off:
+                            Icons.visibility,
+                            size: 25,
+                            color: AppColors.lightPrimaryColor,
+                          )
+                      ),
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 25,),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                        backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
+                      ),
+                      onPressed: (){
+                        login();
+                      },
+                      child: Text("Login",style: Theme.of(context).textTheme.titleSmall,)
+                    ),
+                    SizedBox(height: 25,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Don't Have An Account?",style: Theme.of(context).textTheme.labelSmall,),
+                        SizedBox(width: 5,),
+                        InkWell(
+                          onTap: (){
+                            Navigator.pushNamed(context, RegistrationScreen.route);
+                          },
+                          child: Text("Sign Up",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                            color: AppColors.lightPrimaryColor
+                          )),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

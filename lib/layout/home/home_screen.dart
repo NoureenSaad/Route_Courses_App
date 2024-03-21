@@ -1,11 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:route_courses_app/layout/home/widgets/best_selling_courses_widget.dart';
 import 'package:route_courses_app/layout/home/widgets/featured_courses_widget.dart';
 import 'package:route_courses_app/layout/login/login_screen.dart';
+import 'package:route_courses_app/model/best_selling_courses.dart';
+import 'package:route_courses_app/shared/firebase/firestore_helper.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 
+import '../../model/featured_courses.dart';
 import '../../shared/providers/theme_provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -71,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text("Featured ",style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -82,17 +85,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),)
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: 15,),
             Expanded(
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  FeaturedCoursesWidget(courseName: "Flutter Diploma", studentsNumber: "50"),
-                  SizedBox(width: 15,),
-                  FeaturedCoursesWidget(courseName: "Android Diploma", studentsNumber: "15"),
-                  SizedBox(width: 15,),
-                  FeaturedCoursesWidget(courseName: "Frontend Diploma", studentsNumber: "20"),
-                ],
+              child: StreamBuilder(
+                stream: FirestoreHelper.getAllFeaturedCourses(),
+                builder: (context,snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if(snapshot.hasError){
+                    return Column(
+                      children: [
+                        Text("There Is An Error!!"),
+                        ElevatedButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                            child: Text("Try Again"))
+                      ],
+                    );
+                  }
+                  List<FeaturedCourses> featuredCourses = snapshot.data??[];
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(width: 10,),
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context,index)=>FeaturedCoursesWidget(featuredCourses: featuredCourses[index]),
+                    itemCount: featuredCourses.length,
+                  );
+                },
               ),
             ),
             SizedBox(height: 20,),
@@ -108,15 +130,35 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
             Expanded(
-              child: ListView(
-                children: [
-                  BestSellingCoursesWidget(courseName: "Flutter Basics Diploma", studentsNumber: "20"),
-                  SizedBox(height: 15,),
-                  BestSellingCoursesWidget(courseName: "Android Kotlin Diploma", studentsNumber: "15"),
-                  SizedBox(height: 15,),
-                  BestSellingCoursesWidget(courseName: "Full-Stack Development\nDiploma", studentsNumber: "30"),
-                ],
-              ))
+              child: StreamBuilder(
+                stream: FirestoreHelper.getAllBestSellingCourses(),
+                builder: (context,snapshot){
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if(snapshot.hasError){
+                    return Column(
+                      children: [
+                        Text("There Is An Error!!"),
+                        ElevatedButton(
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                            child: Text("Try Again"))
+                      ],
+                    );
+                  }
+                  List<BestSellingCourses> bestSellingCourses = snapshot.data??[];
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 10,),
+                    itemBuilder: (context,index)=>BestSellingCoursesWidget(bestSellingCourses: bestSellingCourses[index]),
+                    itemCount: bestSellingCourses.length,
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),

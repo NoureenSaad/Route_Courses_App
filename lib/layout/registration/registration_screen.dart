@@ -38,165 +38,167 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     AuthDataProvider provider = Provider.of<AuthDataProvider>(context);
     ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Image(image: AssetImage(themeProvider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png")),
-                IconButton(
-                  onPressed: (){
-                    themeProvider.changeTheme(themeProvider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
-                  },
-                  icon: Icon(themeProvider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20,right: 20),
-            child: Form(
-              key: formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 45,horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Create An Account",style: Theme.of(context).textTheme.titleMedium,),
-                      Text("Connect With Your Friends Today!",style: Theme.of(context).textTheme.labelSmall,),
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-                  Text("Name",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Enter Your Name",
-                    controller: nameController,
-                    keyboardType: TextInputType.text,
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      return null;
+                  Image(image: AssetImage(themeProvider.theme == ThemeMode.dark?"assets/images/dark_route_logo.png":"assets/images/light_route_logo.png")),
+                  IconButton(
+                    onPressed: (){
+                      themeProvider.changeTheme(themeProvider.theme == ThemeMode.dark?ThemeMode.light:ThemeMode.dark);
                     },
+                    icon: Icon(themeProvider.theme == ThemeMode.dark?Icons.light_mode:Icons.dark_mode,size: 30,color: Theme.of(context).primaryColor,),
                   ),
-                  SizedBox(height: 15,),
-                  Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Enter Your Email",
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      else if(!RegExp(Constants.emailRegex).hasMatch(value)){
-                        return "Enter A Valid Email";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 15,),
-                  Text("Password",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Enter Your Password",
-                    controller: passwordController,
-                    keyboardType: TextInputType.text,
-                    isObsecuredText: isObscured,
-                    suffixIcon: IconButton(
-                        onPressed: (){
-                          setState(() {
-                            isObscured = !isObscured;
-                          });
-                        },
-                        icon: Icon(
-                          isObscured?
-                          Icons.visibility_off:
-                          Icons.visibility,
-                          size: 25,
-                          color: AppColors.lightPrimaryColor,
-                        )
-                    ),
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      else if(value.length < 8){
-                        return "Password Can't Be Less Than 8 Characters";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 15,),
-                  Text("Confirm Password",style: Theme.of(context).textTheme.labelMedium,),
-                  SizedBox(height: 10,),
-                  CustomTextField(
-                    label: "Confirm Your Password",
-                    controller: passwordConfirmationController,
-                    keyboardType: TextInputType.text,
-                    isObsecuredText: isConfirmationObscured,
-                    suffixIcon: IconButton(
-                        onPressed: (){
-                          setState(() {
-                            isConfirmationObscured = !isConfirmationObscured;
-                          });
-                        },
-                        icon: Icon(
-                          isConfirmationObscured?
-                          Icons.visibility_off:
-                          Icons.visibility,
-                          size: 25,
-                          color: AppColors.lightPrimaryColor,
-                        )
-                    ),
-                    validator: (value){
-                      if(value == null || value.isEmpty){
-                        return "This Field Is Required";
-                      }
-                      else if(value != passwordController.text){
-                        return "Password Doesn't Match";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 25,),
-                  ElevatedButton(
-                      style: ButtonStyle(
-                          shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-                          backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
-                      ),
-                      onPressed: (){
-                        registration();
-                      },
-                      child: Text("Registration",style: Theme.of(context).textTheme.titleSmall,)
-                  ),
-                  SizedBox(height: 25,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Already Have An Account?",style: Theme.of(context).textTheme.labelSmall,),
-                      SizedBox(width: 5,),
-                      InkWell(
-                        onTap: (){
-                          Navigator.pushNamed(context, LoginScreen.route);
-                        },
-                        child: Text("Login",style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                            color: AppColors.lightPrimaryColor
-                        )),
-                      )
-                    ],
-                  )
                 ],
               ),
             ),
-          )
-        ],
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right: 20),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Create An Account",style: Theme.of(context).textTheme.titleMedium,),
+                        Text("Connect With Your Friends Today!",style: Theme.of(context).textTheme.labelSmall,),
+                      ],
+                    ),
+                    SizedBox(height: 20,),
+                    Text("Name",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Enter Your Name",
+                      controller: nameController,
+                      keyboardType: TextInputType.text,
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15,),
+                    Text("Email Address",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Enter Your Email",
+                      controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        else if(!RegExp(Constants.emailRegex).hasMatch(value)){
+                          return "Enter A Valid Email";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15,),
+                    Text("Password",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Enter Your Password",
+                      controller: passwordController,
+                      keyboardType: TextInputType.text,
+                      isObsecuredText: isObscured,
+                      suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              isObscured = !isObscured;
+                            });
+                          },
+                          icon: Icon(
+                            isObscured?
+                            Icons.visibility_off:
+                            Icons.visibility,
+                            size: 25,
+                            color: AppColors.lightPrimaryColor,
+                          )
+                      ),
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        else if(value.length < 8){
+                          return "Password Can't Be Less Than 8 Characters";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 15,),
+                    Text("Confirm Password",style: Theme.of(context).textTheme.labelMedium,),
+                    SizedBox(height: 10,),
+                    CustomTextField(
+                      label: "Confirm Your Password",
+                      controller: passwordConfirmationController,
+                      keyboardType: TextInputType.text,
+                      isObsecuredText: isConfirmationObscured,
+                      suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              isConfirmationObscured = !isConfirmationObscured;
+                            });
+                          },
+                          icon: Icon(
+                            isConfirmationObscured?
+                            Icons.visibility_off:
+                            Icons.visibility,
+                            size: 25,
+                            color: AppColors.lightPrimaryColor,
+                          )
+                      ),
+                      validator: (value){
+                        if(value == null || value.isEmpty){
+                          return "This Field Is Required";
+                        }
+                        else if(value != passwordController.text){
+                          return "Password Doesn't Match";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 25,),
+                    ElevatedButton(
+                        style: ButtonStyle(
+                            shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+                            backgroundColor: MaterialStateProperty.all(Theme.of(context).primaryColor)
+                        ),
+                        onPressed: (){
+                          registration();
+                        },
+                        child: Text("Registration",style: Theme.of(context).textTheme.titleSmall,)
+                    ),
+                    SizedBox(height: 25,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Already Have An Account?",style: Theme.of(context).textTheme.labelSmall,),
+                        SizedBox(width: 5,),
+                        InkWell(
+                          onTap: (){
+                            Navigator.pushNamed(context, LoginScreen.route);
+                          },
+                          child: Text("Login",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                              color: AppColors.lightPrimaryColor
+                          )),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

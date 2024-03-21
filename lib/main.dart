@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:route_courses_app/layout/home/home_screen.dart';
@@ -5,19 +7,23 @@ import 'package:route_courses_app/layout/login/login_screen.dart';
 import 'package:route_courses_app/layout/registration/registration_screen.dart';
 import 'package:route_courses_app/shared/providers/auth_data_provider.dart';
 import 'package:route_courses_app/shared/providers/theme_provider.dart';
+import 'package:route_courses_app/shared/shared_prefs.dart';
 import 'package:route_courses_app/style/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
-void main() async{
+Future<void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  SharedPrefs.prefs = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthDataProvider>(create: (_)=>AuthDataProvider(),),
-        ChangeNotifierProvider<ThemeProvider>(create: (_)=>ThemeProvider(),),
+        ChangeNotifierProvider<ThemeProvider>(create: (_)=>ThemeProvider()..loadSettings(),),
       ],
       child: const MyApp()
     )
