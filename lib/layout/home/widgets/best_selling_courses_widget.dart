@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/best_selling_courses.dart';
@@ -22,17 +23,18 @@ class BestSellingCoursesWidget extends StatelessWidget {
             Image(image: AssetImage("assets/images/bestSelling.png"),
             width: 50,),
             SizedBox(width: 10,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(bestSellingCourses.courseName??"",style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontSize: 15,
-                ),maxLines: 2,
-                overflow: TextOverflow.ellipsis,),
-                Text("${bestSellingCourses.studentsNumber??0} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  fontSize: 12
-                ),),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(bestSellingCourses.courseName??"",style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontSize: 15,
+                  ),),
+                  Text("${bestSellingCourses.studentsNumber??0} Students Enrolled",style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                    fontSize: 12
+                  ),),
+                ],
+              ),
             ),
             SizedBox(width: 10,),
             ElevatedButton(
